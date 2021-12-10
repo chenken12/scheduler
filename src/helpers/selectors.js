@@ -8,4 +8,3 @@ export function getAppointmentsForDay(state, day) {
   }
   return filterAppointments;
 }
-
