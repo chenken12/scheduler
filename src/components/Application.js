@@ -5,26 +5,6 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 
-/* 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
-*/
-
 const appointments = [
   {
     id: 1,
@@ -99,13 +79,11 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
        
-        {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
       </section>
+
       <section className="schedule">
         { parsedAppointment }
         <Appointment key="last" time="5pm" />
-        
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>
     </main>
   );
