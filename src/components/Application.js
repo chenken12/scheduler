@@ -62,7 +62,7 @@ export default function Application(props) {
       axios.get('/api/interviewers')
     ]).then((all) => {
       const [ first, second, third ] = all;
-      console.log(first, second, third);
+      //console.log(first, second, third);
       setState(prev => ({ ...prev,
         days:[...first.data], 
         appointments:{...second.data}, 
