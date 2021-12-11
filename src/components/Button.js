@@ -4,6 +4,7 @@ import "components/Button.scss";
 import classNames from "classnames";
 
 export default function Button(props) {
+   // set button css base on class
    let buttonClass = classNames("button ", { 
       "button--confirm": props.confirm,
       "button--danger": props.danger

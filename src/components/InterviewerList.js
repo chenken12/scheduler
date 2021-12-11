@@ -6,6 +6,8 @@ import InterviewerListItem from "./InterviewerListItem";
 export default function InterviewerList(props) {
   const { interviewers, onChange, value} = (props);
 
+  // create a list of Interviewer for that day
+  // so if user want to book or change interviewer on that day
   const parsedInterviewersList = interviewers.map((interviewer) => (
     <InterviewerListItem 
       key={interviewer.id} 

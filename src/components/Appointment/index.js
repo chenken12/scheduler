@@ -11,6 +11,9 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 
+// the main function for Appointment folder
+// use a custom hook to change between element in the html
+// base on what the user selected
 export default function Appointment(props) {
   const { time, interview, interviewers } = props;
   const { mode, transition, back } = useVisualMode((interview) ? SHOW : EMPTY);

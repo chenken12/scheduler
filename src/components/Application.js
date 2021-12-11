@@ -14,6 +14,7 @@ export default function Application(props) {
     interviewers: {}
   });
   
+  // fetch the json/api data from the proxy and push the value into state
   useEffect(() => {
     Promise.all([
       axios.get(`/api/days`),
@@ -29,14 +30,20 @@ export default function Application(props) {
     });
   }, []);
 
+  // a function to change the days in the side
   const setDay = (day) => setState(prev => ({ ...prev, day }));
+
+  // get the appointments and interviewers for that day
+  // then map to fill the number of spot booked by someone
+  // interview is for the spot that is booked and
+  // interviewers is for a list of people available on that day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
   const parsedAppointment = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return (<Appointment 
       key={appointment.id} 
-      {...appointment} 
+      time={appointment.time} 
       interview={interview} 
       interviewers={interviewers}
     />);

@@ -2,6 +2,7 @@ import React from "react";
 
 import "components/Appointment/styles.scss";
 
+// the info card if someone booked a spot in that time and day
 export default function Show(props) {
   const { student, interviewer, onEdit, onDelete} = props;
 

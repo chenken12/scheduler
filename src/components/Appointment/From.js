@@ -4,6 +4,8 @@ import "components/Appointment/styles.scss";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
+// the from to book a time in the day 
+// display list of interviewer, 2 button and spot to fill user's name 
 export default function Form(props) {
   const { interviewers, onSave, onCancel } = props;
   const [student, setStudent] = useState(props.student || "");
