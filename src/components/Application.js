@@ -33,6 +33,24 @@ export default function Application(props) {
   // a function to change the days in the side
   const setDay = (day) => setState(prev => ({ ...prev, day }));
 
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(() => setState({ ...state, appointments }))
+      .catch((err) => console.log(err));
+  };
+
   // get the appointments and interviewers for that day
   // then map to fill the number of spot booked by someone
   // interview is for the spot that is booked and
@@ -43,9 +61,10 @@ export default function Application(props) {
     const interview = getInterview(state, appointment.interview);
     return (<Appointment 
       key={appointment.id} 
-      time={appointment.time} 
+      {...appointment} 
       interview={interview} 
       interviewers={interviewers}
+      bookInterview={bookInterview}
     />);
   });
 
