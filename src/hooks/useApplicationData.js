@@ -28,20 +28,18 @@ export default function useApplicationData(initial) {
   // a function to change the days in the side
   const setDay = (day) => setState(prev => ({ ...prev, day }));
 
-  const countAppointments = function(id, appointments) {
+  const updateSpots = function(id, appointments) {
     const daysArr = [];
-    for (const [index, day] of state.days.entries()) {
+    for (const day of state.days) {
+      let newDay = {...day};
       if (day.appointments.includes(id)) {
         let spots = 0;
         for (const i of day.appointments) {
           if (!appointments[i].interview) spots++;
         }
-        
-        const newSpot = { ...state.days[index],spots: spots };
-        daysArr.push(newSpot);
-      } else {
-        daysArr.push(day);
+        newDay = { ...day, spots: spots };
       }
+      daysArr.push(newDay);
     }
     return daysArr;
   };
@@ -57,7 +55,7 @@ export default function useApplicationData(initial) {
       [id]: appointment
     };
 
-    const spots = countAppointments(id, appointments);
+    const spots = updateSpots(id, appointments);
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => setState({ ...state, appointments, days:[...spots] }));
@@ -69,7 +67,7 @@ export default function useApplicationData(initial) {
       [id]: { ...state.appointments[id], interview: null }
     };
 
-    const spots = countAppointments(id, appointments);
+    const spots = updateSpots(id, appointments);
 
     return await axios.delete(`/api/appointments/${id}`)
       .then(() => setState({ ...state, appointments, days:[...spots] }))
