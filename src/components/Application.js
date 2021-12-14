@@ -1,62 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import axios from "axios";
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
+import useApplicationData from "hooks/useApplicationData";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors.js";
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
-  
-  // fetch the json/api data from the proxy and push the value into state
-  useEffect(() => {
-    Promise.all([
-      axios.get(`/api/days`),
-      axios.get(`/api/appointments`),
-      axios.get('/api/interviewers')
-    ]).then((all) => {
-      const [ first, second, third ] = all;
-      setState(prev => ({ ...prev,
-        days:[...first.data], 
-        appointments:{...second.data}, 
-        interviewers:{...third.data}
-      }));
-    });
-  }, []);
-
-  // a function to change the days in the side
-  const setDay = (day) => setState(prev => ({ ...prev, day }));
-
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => setState({ ...state, appointments }))
-  };
-
-  const cancelInterview = async function(id) {
-    const appointments = {
-      ...state.appointments,
-      [id]: { ...state.appointments[id], interview: null }
-    };
-
-    return await axios.delete(`/api/appointments/${id}`)
-      .then(() => setState({ ...state, appointments }))
-  };
+  const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
 
   // get the appointments and interviewers for that day
   // then map to fill the number of spot booked by someone
