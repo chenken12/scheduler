@@ -62,19 +62,19 @@ export default function Application(props) {
   // then map to fill the number of spot booked by someone
   // interview is for the spot that is booked and
   // interviewers is for a list of people available on that day
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
-  const parsedAppointment = dailyAppointments.map((appointment) => {
-    const interview = getInterview(state, appointment.interview);
-    return (<Appointment 
-      key={appointment.id} 
-      {...appointment} 
-      interview={interview} 
-      interviewers={interviewers}
-      bookInterview={bookInterview}
-      cancelInterview={cancelInterview}
-    />);
-  });
+
+  const parsedAppointment = getAppointmentsForDay(state, state.day).map(
+    (appointment) => {
+      return (<Appointment 
+        key={appointment.id} 
+        {...appointment} 
+        interview={getInterview(state, appointment.interview)} 
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />);
+    });
 
   return (
     <main className="layout">
