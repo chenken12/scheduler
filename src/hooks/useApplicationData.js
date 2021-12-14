@@ -44,7 +44,7 @@ export default function useApplicationData(initial) {
     return daysArr;
   };
 
-  function bookInterview(id, interview) {
+  const bookInterview = async function(id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -57,7 +57,7 @@ export default function useApplicationData(initial) {
 
     const spots = updateSpots(id, appointments);
 
-    return axios.put(`/api/appointments/${id}`, { interview })
+    return await axios.put(`/api/appointments/${id}`, { interview })
       .then(() => setState({ ...state, appointments, days:[...spots] }));
   };
 
