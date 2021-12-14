@@ -7,6 +7,7 @@ import Empty from "./Empty";
 import Form from "./From";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 
 const EMPTY = "EMPTY";
@@ -18,6 +19,9 @@ const EDIT = "EDIT";
 const SAVING = "SAVING";
 const DELETE = "DELETE";
 const CONFIRM = "CONFIRM";
+
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 // the main function for Appointment folder
 // use a custom hook to change between element in the html
@@ -32,15 +36,17 @@ export default function Appointment(props) {
       interviewer
     };
 
-    transition(SAVING);
+    transition(SAVING, true);
     bookInterview(id, interview)
-      .then(() => transition(SHOW));
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
   }
 
   function cancel() {
-    transition(DELETE);
+    transition(DELETE, true);
     cancelInterview(id)
-      .then(() => transition(EMPTY));
+      .then(() => transition(EMPTY))
+      .catch(error => transition(ERROR_DELETE, true));
   }
 
   return (
@@ -60,6 +66,9 @@ export default function Appointment(props) {
       {mode === SAVING && <Status  message={"Saving"} />}
       {mode === DELETE && <Status  message={"Deleting"} />}
       {mode === CONFIRM && <Confirm  message={"Delete the appointment?"} onCancel={() => back()} onConfirm={cancel}/>}
+
+      {mode === ERROR_SAVE && <Error  message={"Error while Saving"} onClose={() => back()} />}
+      {mode === ERROR_DELETE && <Error  message={"Error while Deleting"} onClose={() => back()}/>}
     </article>
   );
 }

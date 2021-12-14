@@ -46,18 +46,16 @@ export default function Application(props) {
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => setState({ ...state, appointments }))
-      .catch((err) => console.log(err));
   };
 
-  function cancelInterview(id) {
+  const cancelInterview = async function(id) {
     const appointments = {
       ...state.appointments,
       [id]: { ...state.appointments[id], interview: null }
     };
 
-    return axios.delete(`/api/appointments/${id}`)
+    return await axios.delete(`/api/appointments/${id}`)
       .then(() => setState({ ...state, appointments }))
-      .catch((err) => console.log(err));
   };
 
   // get the appointments and interviewers for that day
