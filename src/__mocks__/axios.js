@@ -81,5 +81,27 @@ export default {
       }
 
     }
+  }),
+
+  put: jest.fn(url => {
+    switch (url) {
+      case "/api/appointments/:id": {
+        return Promise.resolve({
+          status: 200,
+          statusText: "No Content"
+        });
+      }
+    }
+  }),
+
+  delete: jest.fn(url => {
+    switch (url) {
+      case "/api/appointments/:id": {
+        return Promise.resolve({
+          status: 204,
+          statusText: "No Content"
+        });
+      }
+    }
   })
 };
