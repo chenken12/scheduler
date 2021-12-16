@@ -15,6 +15,12 @@ fit. The data is handle by another server and it fetch by axios.
 !["Appointment-ShowInfo"](https://github.com/chenken12/scheduler/blob/master/doc/Appointment-ShowInfo.png?raw=true)
 !["Appointment-Error"](https://github.com/chenken12/scheduler/blob/master/doc/Appointment-Error.png?raw=true)
 
+## Stack
+- React
+- Webpack, Bable
+- Axios
+- Storybook, Webpack Dev Server, Jest, Cypress
+
 ## Dependencies
 - axios
 - classnames
