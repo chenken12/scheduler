@@ -23,7 +23,7 @@ const updateSpots = function(state, id, appointments) {
   return daysArr;
 };
 
-function reducer(state, action) {
+const reducer = function(state, action) {
   const { day, days, appointments, interviewers, id, interview } = action;
   switch (action.type) {
     case SET_DAY:
@@ -83,7 +83,7 @@ export default function useApplicationData(initial) {
       .then(() => dispatch({ type:SET_INTERVIEW, id, interview }));
   };
 
-   //update html and push into api when user delete an Interview 
+  //update html and push into api when user delete an Interview 
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`)
       .then(() => dispatch({ type:SET_INTERVIEW, id, interview:null }));
