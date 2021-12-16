@@ -1,8 +1,57 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
+
+// a function to update Spots info on the sidebar
+// when a user delete or adds a new appointment
+const updateSpots = function(state, id, appointments) {
+  const daysArr = [];
+  for (const day of state.days) {
+    let newDay = {...day};
+    if (day.appointments.includes(id)) {
+      let spots = 0;
+      for (const i of day.appointments) {
+        if (!appointments[i].interview) spots++;
+      }
+      newDay = { ...day, spots: spots };
+    }
+    daysArr.push(newDay);
+  }
+  return daysArr;
+};
+
+function reducer(state, action) {
+  const { day, days, appointments, interviewers, id, interview } = action;
+  switch (action.type) {
+    case SET_DAY:
+      return { ...state, day };
+    case SET_APPLICATION_DATA:
+      return { ...state, days, appointments, interviewers };
+    case SET_INTERVIEW: {
+      const appointment = {
+        ...state.appointments[id],
+        interview
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      const days = updateSpots(state, id, appointments);
+
+      return { ...state, appointments, days };
+    }
+    default:
+      throw new Error(
+        `Tried to reduce with unsupported action type: ${action.type}`
+      );
+  }
+}
+
 export default function useApplicationData(initial) { 
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
@@ -17,64 +66,27 @@ export default function useApplicationData(initial) {
       axios.get('/api/interviewers')
     ]).then((all) => {
       const [ first, second, third ] = all;
-      setState(prev => ({ ...prev,
-        days:[...first.data], 
-        appointments:{...second.data}, 
-        interviewers:{...third.data}
-      }));
+      dispatch({ type: SET_APPLICATION_DATA,
+        days: first.data, 
+        appointments: second.data, 
+        interviewers: third.data
+      });
     });
   }, []);
 
   // a function to change the days in the side
-  const setDay = (day) => setState(prev => ({ ...prev, day }));
-
-  // a function to update Spots info on the sidebar
-  // when a user delete or adds a new appointment
-  const updateSpots = function(id, appointments) {
-    const daysArr = [];
-    for (const day of state.days) {
-      let newDay = {...day};
-      if (day.appointments.includes(id)) {
-        let spots = 0;
-        for (const i of day.appointments) {
-          if (!appointments[i].interview) spots++;
-        }
-        newDay = { ...day, spots: spots };
-      }
-      daysArr.push(newDay);
-    }
-    return daysArr;
-  };
+  const setDay = (day) => dispatch({type: SET_DAY, day:day});
 
   //update html and push into api when user add a new Interview 
   const bookInterview = function(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    const spots = updateSpots(id, appointments);
-
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(() => setState({ ...state, appointments, days:[...spots] }));
+      .then(() => dispatch({ type:SET_INTERVIEW, id, interview }));
   };
 
    //update html and push into api when user delete an Interview 
   const cancelInterview = function(id) {
-    const appointments = {
-      ...state.appointments,
-      [id]: { ...state.appointments[id], interview: null }
-    };
-
-    const spots = updateSpots(id, appointments);
-
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => setState({ ...state, appointments, days:[...spots] }))
+      .then(() => dispatch({ type:SET_INTERVIEW, id, interview:null }));
   };
 
   return { state, setDay, bookInterview, cancelInterview };
