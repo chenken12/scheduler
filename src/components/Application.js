@@ -11,8 +11,7 @@ export default function Application(props) {
 
   // get the appointments and interviewers for that day
   // then map to fill the number of spot booked by someone
-  // interview is for the spot that is booked and
-  // interviewers is for a list of people available on that day
+  // interviewers is for a list of people(interviewers) available on that day
   const interviewers = getInterviewersForDay(state, state.day);
 
   const parsedAppointment = getAppointmentsForDay(state, state.day).map(

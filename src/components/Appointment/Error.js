@@ -2,6 +2,7 @@ import React from "react";
 
 import "components/Appointment/styles.scss";
 
+// error card when the info can not push to the api
 export default function Error(props) {
   const { message, onClose } = props;
 

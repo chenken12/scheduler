@@ -2,6 +2,7 @@ import React from "react";
 
 import "components/Appointment/styles.scss";
 
+// the loading card for deleting and saving
 export default function Status(props) {
   const { message } = props;
 

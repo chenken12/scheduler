@@ -30,6 +30,7 @@ export default function Appointment(props) {
   const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
   const { mode, transition, back } = useVisualMode((interview) ? SHOW : EMPTY);
 
+  // function for add a new interview into the scheduler
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -42,6 +43,7 @@ export default function Appointment(props) {
       .catch(error => transition(ERROR_SAVE, true));
   }
 
+  // function for deleting an existing interview
   function cancel() {
     transition(DELETE, true);
     cancelInterview(id)

@@ -1,3 +1,4 @@
+// return a list of filtered Appointments that match with the day
 export function getAppointmentsForDay(state, day) {
   const filteredDays = state.days.filter(d => d.name === day);
   const filterAppointments = [];
@@ -9,6 +10,7 @@ export function getAppointmentsForDay(state, day) {
   return filterAppointments;
 };
 
+// return a list of filtered Interviewers that match with the day
 export function getInterviewersForDay(state, day) {
   const filteredDays = state.days.filter(d => d.name === day);
   const filterInterviewers = [];
@@ -20,6 +22,7 @@ export function getInterviewersForDay(state, day) {
   return filterInterviewers;
 };
 
+// return an object with the interviewer info(id, name, avatar) and student name
 export function getInterview(state, interview) {
   if (interview) {
     return {

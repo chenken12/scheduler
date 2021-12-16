@@ -3,6 +3,7 @@ import React from "react";
 import "components/Appointment/styles.scss";
 import Button from "components/Button";
 
+// Confirm card when user goes to remove an interview
 export default function Confirm(props) {
   const { message, onCancel, onConfirm} = props;
 

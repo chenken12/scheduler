@@ -28,6 +28,8 @@ export default function useApplicationData(initial) {
   // a function to change the days in the side
   const setDay = (day) => setState(prev => ({ ...prev, day }));
 
+  // a function to update Spots info on the sidebar
+  // when a user delete or adds a new appointment
   const updateSpots = function(id, appointments) {
     const daysArr = [];
     for (const day of state.days) {
@@ -44,6 +46,7 @@ export default function useApplicationData(initial) {
     return daysArr;
   };
 
+  //update html and push into api when user add a new Interview 
   const bookInterview = function(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -61,6 +64,7 @@ export default function useApplicationData(initial) {
       .then(() => setState({ ...state, appointments, days:[...spots] }));
   };
 
+   //update html and push into api when user delete an Interview 
   const cancelInterview = function(id) {
     const appointments = {
       ...state.appointments,
