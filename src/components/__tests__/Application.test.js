@@ -1,18 +1,13 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, getByText, queryByText,
-  prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText } 
+import { render, cleanup, waitForElement, fireEvent, getByText, 
+  queryByText, getAllByTestId, getByAltText, getByPlaceholderText } 
   from "@testing-library/react";
 
 import Application from "components/Application";
 
 afterEach(cleanup);
 
-// it("defaults to Monday and changes the schedule when a new day is selected", () => {
-//   const { getByText } = render(<Application />);
-
-//   return waitForElement(() => getByText("Monday"));
-// });
 describe("Application", () => {
   it("defaults to Monday and changes the schedule when a new day is selected", () => {
     const { getByText } = render(<Application />);
