@@ -99,6 +99,25 @@ describe("Form", () => {
     expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", 1);
   });
 
+  it("can successfully save after trying to submit an empty interviewer name", () => {
+    const onSave = jest.fn();
+    const { getByText, getByAltText, queryByText } = render(
+      <Form interviewers={interviewers} student="Lydia Miller-Jones" onSave={onSave} />
+    );
+  
+    fireEvent.click(getByText("Save"));
+  
+    expect(getByText(/Must select an interviewer/i)).toBeInTheDocument();
+    expect(onSave).not.toHaveBeenCalled();
+  
+    fireEvent.click(getByAltText("Sylvia Palmer"));
+    fireEvent.click(getByText("Save"));
+  
+    expect(queryByText(/Must select an interviewer/i)).toBeNull();
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", 1);
+  });
+
   it("calls onCancel and resets the input field", () => {
     const onCancel = jest.fn();
     const { getByText, getByPlaceholderText, queryByText } = render(
